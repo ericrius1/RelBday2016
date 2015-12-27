@@ -1,6 +1,6 @@
 
-var camera, renderer, scene, controls, clock;
-
+var camera, renderer, scene, controls, clock, textureLoader, raycaster, mouse;
+var painting;
 
 var controlsEnabled = true;
 
@@ -12,10 +12,11 @@ function init() {
   var w = window.innerWidth;
   var h = window.innerHeight;
 
-  camera = new THREE.PerspectiveCamera(65, w / h, 0.1, 10000);
-  camera.position.set(0, 11, 1)
+  camera = new THREE.PerspectiveCamera(45, w / h, 1, 10000);
+  camera.position.set(0, 0, 3000)
 
   scene = new THREE.Scene();
+  textureLoader = new THREE.TextureLoader();
 
   var dpr = window.devicePixelRatio || 1;
   renderer = new THREE.WebGLRenderer();
@@ -24,7 +25,8 @@ function init() {
 
   document.body.appendChild(renderer.domElement);
 
-  window.addEventListener('resize', onWindowResize, false);
+  mouse = new THREE.Vector2();
+  raycaster = new THREE.Raycaster();
 
   clock = new THREE.Clock();
 
@@ -32,8 +34,8 @@ function init() {
     controls = new THREE.OrbitControls(camera);
   }
 
-  var box = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2));
-  scene.add(box);
+  painting = new Painting();
+
 
 }
 
@@ -41,7 +43,6 @@ function init() {
 function animate() {
 
   requestAnimationFrame(animate);
-
 
   renderer.render(scene, camera);
 
@@ -52,6 +53,18 @@ function animate() {
 }
 
 
+function onMouseDown() {
+  console.log("YAAAR")
+  event.preventDefault();
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    var intersections = raycaster.intersectObjects(scene.children);
+    console.log(intersections);
+}
+
 function onWindowResize() {
 
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -60,3 +73,8 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
 }
+
+window.addEventListener('resize', onWindowResize, false);
+window.addEventListener('mousedown', onMouseDown, false);
+
+
