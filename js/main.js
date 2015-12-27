@@ -1,6 +1,6 @@
 
 var camera, renderer, scene, controls, clock, textureLoader, raycaster, mouse;
-var painting;
+var painting, fluteStream;
 
 var controlsEnabled = true;
 
@@ -27,6 +27,7 @@ function init() {
 
   mouse = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
+  raycaster.params.Points.threshold = 0;
 
   clock = new THREE.Clock();
 
@@ -35,6 +36,7 @@ function init() {
   }
 
   painting = new Painting();
+  fluteStream = new FluteStream();
 
 
 }
@@ -50,6 +52,7 @@ function animate() {
     controls.update();
   }
 
+  fluteStream.update();
 }
 
 
@@ -60,9 +63,11 @@ function onMouseDown() {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    raycaster.setFromCamera(mouse, camera);
-    var intersections = raycaster.intersectObjects(scene.children);
-    console.log(intersections);
+  raycaster.setFromCamera(mouse, camera);
+  var intersections = raycaster.intersectObjects(scene.children);
+
+
+  console.log(intersections);
 }
 
 function onWindowResize() {
