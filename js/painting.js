@@ -1,30 +1,16 @@
 var Painting = function() {
 
 
-    this.geometry = new THREE.BoxGeometry(540, 960, 500);
+    this.geometry = new THREE.PlaneGeometry(540, 960);
     this.material = new THREE.MeshBasicMaterial({
         map: textureLoader.load("assets/rel.png"),
         transparent: true,
-        // opacity: .4
-    })
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.position.z = -100
-    scene.add(this.mesh);
-
-
-    var geometry = new THREE.BoxGeometry(540, 960, 500);
-    var material = new THREE.MeshBasicMaterial({
-        // map: textureLoader.load("assets/rel.png"),
-        color: 0x0000ff,
-        transparent: true,
-        opacity: .4,
+        opacity: 1,
         // side: THREE.DoubleSide
+        alphaTest: 0.5
     });
-    var mesh = new THREE.Mesh(geometry,material);
-    mesh.position.z -=100;
-    mesh.rotation.y = Math.PI/2;
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-    // scene.add(mesh);
-
+    scene.add(this.mesh);
 
 }

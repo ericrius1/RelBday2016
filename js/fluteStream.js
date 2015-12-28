@@ -12,7 +12,7 @@ var FluteStream = function() {
       value: 10
     },
     position: {
-      value: new THREE.Vector3(269, -33, -147)
+      value: new THREE.Vector3(57, -36, 0)
     },
     size: {
       value: [100, 100, 100]
