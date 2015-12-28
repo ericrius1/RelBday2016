@@ -13,7 +13,7 @@ function init() {
   var h = window.innerHeight;
 
   camera = new THREE.PerspectiveCamera(45, w / h, 1, 10000);
-  camera.position.set(0, 0, 3000)
+  camera.position.set(0, 0, 1000)
 
   scene = new THREE.Scene();
   textureLoader = new THREE.TextureLoader();
@@ -22,6 +22,7 @@ function init() {
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(dpr);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  // renderer.setClearColor(0xff0000)
 
   document.body.appendChild(renderer.domElement);
 
@@ -58,7 +59,6 @@ function animate() {
 
 function onMouseDown() {
   console.log("YAAAR")
-  event.preventDefault();
 
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;

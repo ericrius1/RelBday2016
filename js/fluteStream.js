@@ -4,36 +4,52 @@ var FluteStream = function() {
       value: textureLoader.load("../assets/smokeparticle.png")
     },
     blending: THREE.NormalBlending,
-    maxParticleCount: 10000
+    maxParticleCount: 1000000,
   });
 
   this.emitter = new SPE.Emitter({
-    maxAge: 5,
+    maxAge: {
+      value: 10
+    },
     position: {
-      value: new THREE.Vector3(53, -36, 10)
+      value: new THREE.Vector3(269, -33, -147)
     },
     size: {
-      value: [0, 100, 0]
+      value: [100, 100, 100]
     },
-    particleCount: 1000,
+    wiggle: {
+      value: 30,
+    },
+    drag: {
+      value: 1,
+    },
+    rotation: {
+      angle: Math.PI * 4
+    },
+    angle: {
+      value: [0, Math.PI, Math.PI * 2]
+    },
+    particleCount: 10000,
     velocity: {
-      spread: new THREE.Vector3(10, 10, 0)
+      value: new THREE.Vector3(50, 0, 0),
+        spread: new THREE.Vector3(10, 10, 0)
     },
-    acceleration: {
-      spread: new THREE.Vector3(4, 4, 4)
-    },
+    // acceleration: {
+    //   spread: new THREE.Vector3(4, 4, 4)
+    // },
     color: {
-        value: [getRandomColor(), getRandomColor()]
+      value: [getRandomColor(), getRandomColor()]
     }
   });
   this.particleGroup.addEmitter(this.emitter);
 
+  this.particleGroup.mesh.frustumCulled = false;
   scene.add(this.particleGroup.mesh);
 
 }
 
 FluteStream.prototype.setPosition = function(newPosition) {
-    this.emitter.position.value = newPosition;
+  this.emitter.position.value = newPosition;
 
 }
 
