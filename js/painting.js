@@ -3,9 +3,9 @@ var Painting = function() {
 
     this.geometry = new THREE.PlaneGeometry(540, 960);
     this.material = new THREE.MeshBasicMaterial({
-        map: textureLoader.load("assets/rel3.png"),
+        map: textureLoader.load("assets/rel.png"),
         transparent: true,
-        opacity: 1,
+        opacity: 0.9,
         // side: THREE.DoubleSide
         alphaTest: 0.5
     });
@@ -17,7 +17,7 @@ var Painting = function() {
     var material = new THREE.MeshBasicMaterial({
         map: textureLoader.load("assets/sunset2.png"),
         transparent: true,
-        opacity: 1,
+        opacity: 0.5,
         // side: THREE.DoubleSide
         alphaTest: 0.5
     });

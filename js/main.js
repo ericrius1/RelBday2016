@@ -2,7 +2,7 @@
 var camera, renderer, scene, controls, clock, textureLoader, raycaster, mouse;
 var painting, fluteStream;
 
-var controlsEnabled = true;
+var controlsEnabled = false;
 
 init();
 animate();
@@ -19,7 +19,7 @@ function init() {
   textureLoader = new THREE.TextureLoader();
 
   var dpr = window.devicePixelRatio || 1;
-  renderer = new THREE.WebGLRenderer();
+  renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setPixelRatio(dpr);
   renderer.setSize(window.innerWidth, window.innerHeight);
   // renderer.setClearColor(0xff0000)
@@ -58,17 +58,13 @@ function animate() {
 
 
 function onMouseDown() {
-  console.log("YAAAR")
 
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  var intersections = raycaster.intersectObjects(scene.children);
-
-
-  console.log(intersections);
+  fluteStream.activateStream();
 }
+function onMouseUp() {
+  fluteStream.deactivateStream();
+}
+
 
 function onWindowResize() {
 
@@ -79,7 +75,14 @@ function onWindowResize() {
 
 }
 
+function onMouseMove(event) {
+  fluteStream.flutter(event);
+
+}
+
 window.addEventListener('resize', onWindowResize, false);
 window.addEventListener('mousedown', onMouseDown, false);
+window.addEventListener('mousemove', onMouseMove, false);
+window.addEventListener('mouseup', onMouseUp, false);
 
 
