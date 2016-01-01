@@ -8,40 +8,37 @@ var FluteStream = function() {
   });
 
   this.originalVelocity = new THREE.Vector3(50, 50, 0);
-  this.position = new THREE.Vector3(-90, -120, 10);
+  this.position = new THREE.Vector3(-9, -12, 1);
   this.direction = new THREE.Vector3();
 
   var emitterProps = {
     maxAge: {
-      value: 20
+      value: 30
     },
     position: {
       value: this.position,
-      spread: new THREE.Vector3(10, 10, 0)
+      spread: new THREE.Vector3(1, 1, 0)
     },
     size: {
-      value: [80, 40, 40],
-      spread: [10, 10, 30]
+      value: [8, 4.0, 4.0],
+      spread: [1, 1, 3]
     },
 
     rotation: {
-      angle: Math.PI/3,
+      angle: Math.PI*2,
       angleSpread: Math.PI/6
     },
     opacity: {
-      value: [0.8, 0.4, 0.8]
-    },
-    angle: {
-      value: [0, Math.PI, Math.PI * 2]
+      value: [0.8, 1.0, 0.2]
     },
     acceleration: {
-      spread: new THREE.Vector3(2, 1, 1)
+      spread: new THREE.Vector3(.2, .1, .1)
     },
-    // activeMultiplier: 1,
-    particleCount: 2000,
+    activeMultiplier: 0,
+    particleCount: 10000,
     velocity: {
       value: this.originalVelocity,
-        spread: new THREE.Vector3(5, 5, 5)
+        spread: new THREE.Vector3(.5, .5, .5)
     },
     color: {
       value: [convertColor(255, 134, 129), convertColor(77, 72, 68)]
@@ -51,8 +48,8 @@ var FluteStream = function() {
   this.emitter = new SPE.Emitter(emitterProps);
   this.particleGroupAdditive.addEmitter(this.emitter);
 
-  emitterProps.position.value.x += 20;
-  emitterProps.position.value.y += 10;
+  emitterProps.position.value.x += 2;
+  emitterProps.position.value.y += 1;
   emitterProps.color = {value: [convertColor(142, 146, 157), convertColor(246, 238, 137), convertColor(246, 238, 137)]}
   this.emitter2 = new SPE.Emitter(emitterProps);
   this.particleGroupAdditive.addEmitter(this.emitter2);
@@ -85,20 +82,9 @@ FluteStream.prototype.toTarget = function(point) {
   //calclulate direction from flute end to point
   this.direction = point.sub(this.position);
   this.direction.z = 10;
-  this.direction.multiplyScalar(.5);
+  this.direction.multiplyScalar(.2);
   this.emitter.velocity.value = this.direction;
   this.emitter2.velocity.value = this.direction;
 }
-
-FluteStream.prototype.flutter = function(event) {
-  var deltaY = -event.movementY/10;
-  var deltaX = event.movementX/100;
-  var newVelocity = this.emitter.velocity.value.clone();
-  newVelocity.y += deltaY;
-  newVelocity.x += deltaX;
-    this.emitter.velocity.value = newVelocity;
-    this.emitter2.velocity.value = newVelocity;
-}
-
 
 
