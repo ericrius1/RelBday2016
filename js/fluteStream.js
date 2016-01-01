@@ -1,72 +1,63 @@
 var FluteStream = function() {
   this.particleGroupAdditive = new SPE.Group({
     texture: {
-      value: textureLoader.load("../assets/smokeparticle.png")
+      value: textureLoader.load("./assets/smokeparticle.png")
     },
     blending: THREE.AdditiveBlending,
-    maxParticleCount: 1000000,
+    maxParticleCount: 100000,
   });
 
   this.originalVelocity = new THREE.Vector3(50, 50, 0);
-
-  this.particleGroupNormal= new SPE.Group({
-    texture: {
-      value: textureLoader.load("../assets/smokeparticle.png")
-    },
-    blending: THREE.NormalBlending,
-    maxParticleCount: 1000000,
-  });
+  this.position = new THREE.Vector3(-90, -120, 10);
+  this.direction = new THREE.Vector3();
 
   var emitterProps = {
     maxAge: {
-      value: 50
+      value: 20
     },
     position: {
-      value: new THREE.Vector3(-95, -140, 0)
+      value: this.position,
+      spread: new THREE.Vector3(10, 10, 0)
     },
     size: {
-      value: [100, 100, 100]
+      value: [80, 40, 40],
+      spread: [10, 10, 30]
     },
-    wiggle: {
-      value: 100,
-    },
-    drag: {
-      value: 1,
-    },
+
     rotation: {
-      angle: Math.PI * 13,
-      angleSpread: Math.PI * 3
+      angle: Math.PI/3,
+      angleSpread: Math.PI/6
     },
     opacity: {
-      value: [0.0, 0.5, 0.1]
+      value: [0.8, 0.4, 0.8]
     },
     angle: {
       value: [0, Math.PI, Math.PI * 2]
     },
-    activeMultiplier: 0,
-    particleCount: 50000,
+    acceleration: {
+      spread: new THREE.Vector3(2, 1, 1)
+    },
+    // activeMultiplier: 1,
+    particleCount: 2000,
     velocity: {
       value: this.originalVelocity,
-        spread: new THREE.Vector3(10, 10, 0)
+        spread: new THREE.Vector3(5, 5, 5)
     },
     color: {
-      value: [convertColor(255, 134, 129)]
+      value: [convertColor(255, 134, 129), convertColor(77, 72, 68)]
     }
   };
 
   this.emitter = new SPE.Emitter(emitterProps);
   this.particleGroupAdditive.addEmitter(this.emitter);
 
-  emitterProps.particleCount = 20000;
-  emitterProps.position.value.x -= 10;
-  emitterProps.color = {value: [convertColor(142, 146, 157)]}
-  emitterProps.size.values = [50, 70, 20];
+  emitterProps.position.value.x += 20;
+  emitterProps.position.value.y += 10;
+  emitterProps.color = {value: [convertColor(142, 146, 157), convertColor(246, 238, 137), convertColor(246, 238, 137)]}
   this.emitter2 = new SPE.Emitter(emitterProps);
-  this.particleGroupNormal.addEmitter(this.emitter2);
+  this.particleGroupAdditive.addEmitter(this.emitter2);
 
   scene.add(this.particleGroupAdditive.mesh);
-  scene.add(this.particleGroupNormal.mesh);
-
 
 
 }
@@ -78,19 +69,25 @@ FluteStream.prototype.setPosition = function(newPosition) {
 
 FluteStream.prototype.update = function() {
   this.particleGroupAdditive.tick();
-  this.particleGroupNormal.tick();
 }
 
 FluteStream.prototype.activateStream = function() {
     this.emitter.activeMultiplier = 1;
     this.emitter2.activeMultiplier = 1;
-    this.emitter.velocity.value = this.originalVelocity;
-    this.emitter2.velocity.value = this.originalVelocity;
 }
 
 FluteStream.prototype.deactivateStream = function() {
   this.emitter.activeMultiplier = 0;
   this.emitter2.activeMultiplier = 0;
+}
+
+FluteStream.prototype.toTarget = function(point) {
+  //calclulate direction from flute end to point
+  this.direction = point.sub(this.position);
+  this.direction.z = 10;
+  this.direction.multiplyScalar(.5);
+  this.emitter.velocity.value = this.direction;
+  this.emitter2.velocity.value = this.direction;
 }
 
 FluteStream.prototype.flutter = function(event) {

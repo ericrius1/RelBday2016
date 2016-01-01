@@ -5,7 +5,7 @@ var Painting = function() {
     this.material = new THREE.MeshBasicMaterial({
         map: textureLoader.load("assets/rel.png"),
         transparent: true,
-        opacity: 0.9,
+        opacity: 1.0,
         // side: THREE.DoubleSide
         alphaTest: 0.5
     });
@@ -19,13 +19,14 @@ var Painting = function() {
         transparent: true,
         opacity: 0.5,
         // side: THREE.DoubleSide
-        alphaTest: 0.5
+        alphaTest: 0.5,
+        depthTest: false
     });
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.position.z -= 1000;
-    mesh.scale.multiplyScalar(3.5);
+    this.background = new THREE.Mesh(geometry, material);
+    this.background.position.z -= 1000;
+    this.background.scale.multiplyScalar(3.5);
 
-    scene.add(mesh);
+    scene.add(this.background);
 
 
 

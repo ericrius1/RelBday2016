@@ -1,8 +1,9 @@
 
-var camera, renderer, scene, controls, clock, textureLoader, raycaster, mouse;
+var camera, renderer, scene, controls, clock, textureLoader, raycaster, mouse, stats;
 var painting, fluteStream;
 
 var controlsEnabled = false;
+// var controlsEnabled = true;
 
 init();
 animate();
@@ -24,6 +25,9 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   // renderer.setClearColor(0xff0000)
 
+  stats = new Stats();
+  // document.body.appendChild(stats.domElement);
+
   document.body.appendChild(renderer.domElement);
 
   mouse = new THREE.Vector2();
@@ -40,6 +44,7 @@ function init() {
   fluteStream = new FluteStream();
 
 
+
 }
 
 
@@ -48,10 +53,10 @@ function animate() {
   requestAnimationFrame(animate);
 
   renderer.render(scene, camera);
-
-  if (controlsEnabled) {
-    controls.update();
-  }
+  // stats.update();
+  // if (controlsEnabled) {
+  //   controls.update();
+  // }
 
   fluteStream.update();
 }
@@ -76,7 +81,15 @@ function onWindowResize() {
 }
 
 function onMouseMove(event) {
-  fluteStream.flutter(event);
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  var intersections = raycaster.intersectObjects([painting.background]);
+  // fluteStream.flutter(event);
+  if(intersections.length > 0) {
+    fluteStream.toTarget(intersections[0].point);
+  }
 
 }
 
