@@ -17,25 +17,25 @@ var FluteStream = function() {
     },
     position: {
       value: this.position,
-      spread: new THREE.Vector3(1, 1, 0)
+      spread: new THREE.Vector3(1.4, 1.4, 0)
     },
     size: {
-      value: [8, 4.0, 4.0],
-      spread: [1, 1, 3]
+      value: [8, 4.0, 15.0],
+      spread: [1, 1, 10]
     },
 
     rotation: {
-      angle: Math.PI*2,
-      angleSpread: Math.PI/6
+      angle: Math.PI*1.5,
+      angleSpread: Math.PI/4
     },
     opacity: {
-      value: [0.8, 1.0, 0.2]
+      value: [0.8, 1.0, 0.4]
     },
     acceleration: {
-      spread: new THREE.Vector3(.2, .1, .1)
+      spread: new THREE.Vector3(.6, .6, .2)
     },
     activeMultiplier: 0,
-    particleCount: 10000,
+    particleCount: 5000,
     velocity: {
       value: this.originalVelocity,
         spread: new THREE.Vector3(.5, .5, .5)
@@ -50,7 +50,7 @@ var FluteStream = function() {
 
   emitterProps.position.value.x += 2;
   emitterProps.position.value.y += 1;
-  emitterProps.color = {value: [convertColor(142, 146, 157), convertColor(246, 238, 137), convertColor(246, 238, 137)]}
+  emitterProps.color = {value: [convertColor(84, 12, 62), convertColor(246, 238, 137), convertColor(246, 238, 137)]}
   this.emitter2 = new SPE.Emitter(emitterProps);
   this.particleGroupAdditive.addEmitter(this.emitter2);
 
