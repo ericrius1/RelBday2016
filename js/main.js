@@ -26,7 +26,7 @@ function init() {
   // renderer.setClearColor(0xff0000)
 
   stats = new Stats();
-  // document.body.appendChild(stats.domElement);
+  document.body.appendChild(stats.domElement);
 
   document.body.appendChild(renderer.domElement);
 
@@ -53,7 +53,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   renderer.render(scene, camera);
-  // stats.update();
+  stats.update();
   // if (controlsEnabled) {
   //   controls.update();
   // }
